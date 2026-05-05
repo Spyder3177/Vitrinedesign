@@ -6,6 +6,7 @@ import BarCategoryChart from "@/components/charts/BarCategoryChart";
 import AllocationPie from "@/components/charts/AllocationPie";
 import { analyticsKpis, allocationData } from "@/lib/data";
 import { ArrowUpRight, TrendingUp, Target, Shield, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 
 const icons = [TrendingUp, Zap, Target, Shield];
 const colors = ["#10b981", "#3b82f6", "#8b5cf6", "#f59e0b"];
@@ -14,35 +15,40 @@ export default function Analytics() {
   return (
     <>
       <Topbar title="Analytiques" subtitle="Analyses approfondies de votre santé financière" />
-      <div className="flex-1 p-6 space-y-6">
+      <div className="flex-1 p-4 lg:p-6 space-y-4 lg:space-y-6">
 
-        {/* KPI summary row */}
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+        {/* KPI row — 2 col mobile, 4 col xl */}
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
           {analyticsKpis.map((kpi, i) => {
-            const Icon = icons[i];
+            const Icon  = icons[i];
             const color = colors[i];
             return (
-              <div key={kpi.label} className="rounded-2xl p-5 card-hover" style={{
-                background: "#0d1526", border: "1px solid rgba(255,255,255,0.05)",
-              }}>
+              <motion.div
+                key={kpi.label}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="rounded-2xl p-4 lg:p-5"
+                style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+              >
                 <div className="flex items-center justify-between mb-3">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{
+                  <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl flex items-center justify-center shrink-0" style={{
                     background: `${color}15`, border: `1px solid ${color}25`,
                   }}>
-                    <Icon size={17} style={{ color }} />
+                    <Icon size={15} style={{ color }} />
                   </div>
-                  <span className="badge badge-up">
-                    <ArrowUpRight size={10} /> {kpi.change}
+                  <span className="badge badge-up text-xs">
+                    <ArrowUpRight size={9} /> {kpi.change}
                   </span>
                 </div>
-                <div className="text-xl font-bold text-white mb-1" style={{ color }}>{kpi.value}</div>
-                <div className="text-xs" style={{ color: "#475569" }}>{kpi.label}</div>
-              </div>
+                <div className="text-lg lg:text-xl font-bold mb-1" style={{ color }}>{kpi.value}</div>
+                <div className="text-xs leading-tight" style={{ color: "var(--text-3)" }}>{kpi.label}</div>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Main charts */}
+        {/* Charts */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
           <div className="xl:col-span-2">
             <CashflowChart />
@@ -50,7 +56,6 @@ export default function Analytics() {
           <HealthRadar />
         </div>
 
-        {/* Bottom */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
           <div className="xl:col-span-2">
             <BarCategoryChart />
@@ -59,30 +64,34 @@ export default function Analytics() {
         </div>
 
         {/* Insights */}
-        <div className="rounded-2xl p-5" style={{
-          background: "#0d1526", border: "1px solid rgba(255,255,255,0.05)",
-        }}>
-          <div className="font-semibold text-white mb-4">Insights & Recommandations</div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="rounded-2xl p-4 lg:p-5"
+          style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+        >
+          <div className="font-semibold mb-4" style={{ color: "var(--text-1)" }}>Insights & Recommandations</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {[
               {
                 icon: "🚀", color: "#10b981", title: "Excellent taux d'épargne",
-                body: "Votre taux d'épargne de 66.3% est exceptionnel — bien au-dessus de la moyenne nationale de 15%. Continuez sur cette lancée.",
+                body: "Votre taux de 66.3% est exceptionnel — bien au-dessus de la moyenne nationale (15%).",
                 tag: "Performance",
               },
               {
                 icon: "⚠️", color: "#f59e0b", title: "Concentration Crypto",
-                body: "15% en crypto représente un risque élevé. Envisagez de plafonner à 10% pour équilibrer risque/rendement.",
+                body: "15% en crypto est élevé. Envisagez de plafonner à 10% pour équilibrer le risque.",
                 tag: "Risque",
               },
               {
                 icon: "💡", color: "#3b82f6", title: "Opportunité fiscale",
-                body: "Votre PEA dispose encore de 48 000 € de capacité. Maximiser le versement avant la fin d'année optimiserait votre fiscalité.",
+                body: "Votre PEA a encore 48 000 € de capacité. Maximiser avant fin d'année optimise votre fiscalité.",
                 tag: "Optimisation",
               },
             ].map((ins) => (
               <div key={ins.title} className="rounded-xl p-4" style={{
-                background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)",
+                background: "var(--input-bg)", border: "1px solid var(--border)",
               }}>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-lg">{ins.icon}</span>
@@ -90,12 +99,12 @@ export default function Analytics() {
                     background: `${ins.color}15`, color: ins.color,
                   }}>{ins.tag}</span>
                 </div>
-                <div className="text-sm font-semibold text-white mb-1">{ins.title}</div>
-                <div className="text-xs leading-relaxed" style={{ color: "#475569" }}>{ins.body}</div>
+                <div className="text-sm font-semibold mb-1" style={{ color: "var(--text-1)" }}>{ins.title}</div>
+                <div className="text-xs leading-relaxed" style={{ color: "var(--text-3)" }}>{ins.body}</div>
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );
