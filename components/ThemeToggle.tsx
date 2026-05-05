@@ -10,25 +10,47 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggle}
-      whileTap={{ scale: 0.9 }}
-      className="relative w-14 h-7 rounded-full flex items-center px-1 cursor-pointer transition-colors"
+      whileTap={{ scale: 0.88 }}
+      className="relative flex items-center rounded-full cursor-pointer"
       style={{
-        background: dark ? "rgba(16,185,129,0.2)" : "rgba(251,191,36,0.2)",
-        border: dark ? "1px solid rgba(16,185,129,0.3)" : "1px solid rgba(251,191,36,0.3)",
+        width: "52px", height: "28px",
+        background: dark
+          ? "linear-gradient(135deg, #0d1526, #1a2438)"
+          : "linear-gradient(135deg, #fef9c3, #fde68a)",
+        border: dark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(251,191,36,0.4)",
+        boxShadow: dark
+          ? "inset 0 2px 4px rgba(0,0,0,0.4), 0 0 12px rgba(16,185,129,0.15)"
+          : "inset 0 2px 4px rgba(0,0,0,0.06), 0 0 12px rgba(251,191,36,0.3)",
+        padding: "3px",
       }}
-      title={dark ? "Passer en mode clair" : "Passer en mode sombre"}
+      title={dark ? "Mode clair" : "Mode sombre"}
     >
+      {/* Stars (dark) or Sun rays (light) */}
+      <span className="absolute text-xs pointer-events-none" style={{
+        right: "7px", opacity: dark ? 0.6 : 0, transition: "opacity 0.3s",
+      }}>✦</span>
+      <span className="absolute text-xs pointer-events-none" style={{
+        left: "7px", opacity: !dark ? 0.7 : 0, transition: "opacity 0.3s", fontSize: "8px",
+      }}>✦</span>
+
       <motion.div
         layout
-        transition={{ type: "spring", stiffness: 400, damping: 28 }}
-        className="absolute w-5 h-5 rounded-full flex items-center justify-center"
+        transition={{ type: "spring", stiffness: 500, damping: 32 }}
+        className="w-5 h-5 rounded-full flex items-center justify-center"
         style={{
-          background: dark ? "#10b981" : "#f59e0b",
-          left: dark ? "4px" : "calc(100% - 24px)",
-          boxShadow: dark ? "0 0 10px rgba(16,185,129,0.5)" : "0 0 10px rgba(245,158,11,0.5)",
+          background: dark
+            ? "linear-gradient(135deg, #1e3a5f, #2d4f8a)"
+            : "linear-gradient(135deg, #f59e0b, #f97316)",
+          marginLeft: dark ? "0px" : "24px",
+          boxShadow: dark
+            ? "0 0 8px rgba(59,130,246,0.5), 0 2px 4px rgba(0,0,0,0.4)"
+            : "0 0 8px rgba(245,158,11,0.6), 0 2px 4px rgba(0,0,0,0.1)",
         }}
       >
-        {dark ? <Moon size={11} color="white" /> : <Sun size={11} color="white" />}
+        {dark
+          ? <Moon size={11} color="#93c5fd" />
+          : <Sun size={11} color="white" />
+        }
       </motion.div>
     </motion.button>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import BottomNav from "@/components/BottomNav";
 import { ThemeProvider } from "@/lib/theme";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageTransition from "@/components/PageTransition";
@@ -30,19 +31,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               pointerEvents: "none", zIndex: 0,
             }} />
 
+            {/* Desktop sidebar */}
             <Sidebar />
 
             <main className="flex-1 flex flex-col min-h-screen relative" style={{ zIndex: 1, minWidth: 0 }}>
-              {/* Theme toggle — fixed top right */}
+              {/* Theme toggle */}
               <div className="fixed top-4 right-4 z-40">
                 <ThemeToggle />
               </div>
-              {/* Mobile top spacer for hamburger button */}
-              <div className="lg:hidden h-16 shrink-0" />
+              {/* Bottom nav padding on mobile */}
               <PageTransition>
-                {children}
+                <div className="lg:pb-0 pb-20">
+                  {children}
+                </div>
               </PageTransition>
             </main>
+
+            {/* Mobile bottom navigation */}
+            <BottomNav />
           </div>
         </ThemeProvider>
       </body>
