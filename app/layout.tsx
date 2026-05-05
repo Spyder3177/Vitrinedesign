@@ -37,6 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="fixed top-4 right-4 z-40">
                 <ThemeToggle />
               </div>
+              {/* Mobile top spacer for hamburger button */}
+              <div className="lg:hidden h-16 shrink-0" />
               <PageTransition>
                 {children}
               </PageTransition>
